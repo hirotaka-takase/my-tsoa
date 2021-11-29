@@ -8,6 +8,7 @@ import {
     Route,
     Response,
     SuccessResponse,
+    Example,
   } from "tsoa";
 
   import { User } from "./user";
@@ -19,6 +20,13 @@ import {
   }
 @Route("users")
 export class UsersController extends Controller {
+  @Example<User>({
+    id: 123,
+    name: "tsoa user",
+    email: "hello@tsoa.com",
+    phoneNumbers: [],
+    status: "Happy",
+  })
   /**
    * Retrieves the details of an existing user.
    * Supply the unique user ID from either and receive corresponding user details.
@@ -33,9 +41,17 @@ export class UsersController extends Controller {
       return new UsersService().get(userId, name);
     }
 
-    @Response<ValidateErrorJSON>(422, "Validation Failed")
     @SuccessResponse("201", "Created")
     @Post()
+    @Response<ValidateErrorJSON>(422, "Validation Failed", {
+      message: "Validation failed",
+      details: {
+        requestBody: {
+          message: "id is an excess property and therefore not allowed",
+          value: "52907745-7672-470e-a803-a2f8feb52944",
+        },
+      },
+    })
     public async createUser(
         @Body() requestBody: UserCreationParams
     ): Promise<void> {

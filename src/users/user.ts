@@ -4,6 +4,11 @@
  * The User object contains common information across
  * every user in the system regardless of status and role.
  * @summary A concise summary.
+ *  @example {
+ *  "id": "52907745-7672-470e-a803-a2f8feb52944",
+ *  "name": "John Doe",
+ *  "phoneNumbers": []
+ * }
  */
 export interface User {
     id: number;
@@ -12,6 +17,9 @@ export interface User {
    */
     email: string;
     name: string;
+    /**
+   * @example "Happy"
+   */
     status?: "Happy" | "Sad";
     phoneNumbers: string[];
 }
